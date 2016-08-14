@@ -90,6 +90,7 @@ public class UCropActivity extends AppCompatActivity {
     private GestureCropImageView mGestureCropImageView;
     private OverlayView mOverlayView;
     private ViewGroup mWrapperStateAspectRatio, mWrapperStateRotate, mWrapperStateScale;
+    ViewGroup mWrapperStateCrop;
     private ViewGroup mLayoutAspectRatio, mLayoutRotate, mLayoutScale;
     private List<ViewGroup> mCropAspectRatioViews = new ArrayList<>();
     private TextView mTextViewRotateAngle, mTextViewScalePercent;
@@ -240,9 +241,9 @@ public class UCropActivity extends AppCompatActivity {
         ArrayList<AspectRatio> aspectRatioList = intent.getParcelableArrayListExtra(UCrop.Options.EXTRA_ASPECT_RATIO_OPTIONS);
 
         if (aspectRatioX > 0 && aspectRatioY > 0) {
-            if (mWrapperStateAspectRatio != null) {
+            /*if (mWrapperStateAspectRatio != null) {
                 mWrapperStateAspectRatio.setVisibility(View.GONE);
-            }
+            }*/
             mGestureCropImageView.setTargetAspectRatio(aspectRatioX / aspectRatioY);
         } else if (aspectRatioList != null && aspectRationSelectedByDefault < aspectRatioList.size()) {
             mGestureCropImageView.setTargetAspectRatio(aspectRatioList.get(aspectRationSelectedByDefault).getAspectRatioX() /
@@ -283,7 +284,10 @@ public class UCropActivity extends AppCompatActivity {
             mWrapperStateRotate = (ViewGroup) findViewById(R.id.state_rotate);
             mWrapperStateRotate.setOnClickListener(mStateClickListener);
             mWrapperStateScale = (ViewGroup) findViewById(R.id.state_scale);
-            mWrapperStateScale.setOnClickListener(mStateClickListener);
+            /*mWrapperStateScale.setOnClickListener(mStateClickListener);*/
+            mWrapperStateScale.setVisibility(View.GONE); //do not display the scale widget
+            mWrapperStateCrop = (ViewGroup) findViewById(R.id.state_crop);
+            mWrapperStateCrop.setOnClickListener(mStateClickListener);
 
             mLayoutAspectRatio = (ViewGroup) findViewById(R.id.layout_aspect_ratio);
             mLayoutRotate = (ViewGroup) findViewById(R.id.layout_rotate_wheel);
@@ -395,7 +399,7 @@ public class UCropActivity extends AppCompatActivity {
         ArrayList<AspectRatio> aspectRatioList = intent.getParcelableArrayListExtra(UCrop.Options.EXTRA_ASPECT_RATIO_OPTIONS);
 
         if (aspectRatioList == null || aspectRatioList.isEmpty()) {
-            aspectRationSelectedByDefault = 2;
+            aspectRationSelectedByDefault = 4;
 
             aspectRatioList = new ArrayList<>();
             aspectRatioList.add(new AspectRatio(null, 1, 1));
@@ -540,10 +544,10 @@ public class UCropActivity extends AppCompatActivity {
 
     private void setInitialState() {
         if (mShowBottomControls) {
-            if (mWrapperStateAspectRatio.getVisibility() == View.VISIBLE) {
-                setWidgetState(R.id.state_aspect_ratio);
+            if (mWrapperStateRotate.getVisibility() == View.VISIBLE) {
+                setWidgetState(R.id.state_rotate);
             } else {
-                setWidgetState(R.id.state_scale);
+                setWidgetState(R.id.state_aspect_ratio);
             }
         } else {
             mGestureCropImageView.setScaleEnabled(true);
@@ -553,6 +557,11 @@ public class UCropActivity extends AppCompatActivity {
 
     private void setWidgetState(@IdRes int stateViewId) {
         if (!mShowBottomControls) return;
+
+        if (stateViewId == R.id.state_crop) {
+            cropAndSaveImage();
+            return;
+        }
 
         mWrapperStateAspectRatio.setSelected(stateViewId == R.id.state_aspect_ratio);
         mWrapperStateRotate.setSelected(stateViewId == R.id.state_rotate);
