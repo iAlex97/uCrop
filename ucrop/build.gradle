@@ -9,7 +9,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 21
         versionName "2.1.2"
-
+    }
+    defaultConfig {
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
