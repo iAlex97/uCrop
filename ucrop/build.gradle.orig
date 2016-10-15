@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+
+android {
+<<<<<<< HEAD
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 21
+        versionName "2.1.2"
+    }
+    defaultConfig {
+=======
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 24
+        versionCode 22
+        versionName "2.2.0-native"
+
+>>>>>>> 4fd0876650f903bcd53330ae9edd5a8daf66cf96
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+    resourcePrefix 'ucrop_'
+
+    sourceSets.main {
+        jni.srcDirs = [];
+    }
+
+}
+
+dependencies {
+<<<<<<< HEAD
+    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+=======
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+>>>>>>> 4fd0876650f903bcd53330ae9edd5a8daf66cf96
+}
